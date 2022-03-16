@@ -206,6 +206,8 @@ def start(tx, creation_code):
         return
     
     contractAddress = w3.eth.get_transaction_receipt(tx)['contractAddress']
+    if contractAddress == None:
+        return
     sys.stdout = open('../contracts/' + contractAddress + '.sol', 'w')
     print('contract main {\n\n')
 
@@ -222,7 +224,7 @@ w3 = Web3(Web3.HTTPProvider('https://rpc.ftm.tools/'))
 w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 
 old_blocknumber = int(open('CURRENT_BLOCK', 'r').read())
-new_blocknumber = old_blocknumber + 50000
+new_blocknumber = old_blocknumber + 10000
 bf = open('CURRENT_BLOCK', 'w')
 bf.write(str(new_blocknumber))
 bf.close()
