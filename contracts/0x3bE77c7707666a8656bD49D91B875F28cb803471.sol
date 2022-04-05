@@ -1,0 +1,509 @@
+contract main {
+
+
+
+
+// =====================  Runtime code  =====================
+
+
+#
+#  - name()
+#
+address tokenAAddress;
+address providerAAddress;
+address tokenBAddress;
+address providerBAddress;
+address governanceAddress;
+address pendingGovernanceAddress;
+address strategistAddress;
+address WETHAddress;
+address rewardAddress;
+address routerAddress;
+uint256 pid;
+address masterchefAddress;
+
+function tokenA() payable {
+    return tokenAAddress
+}
+
+function strategist() payable {
+    return strategistAddress
+}
+
+function reward() payable {
+    return rewardAddress
+}
+
+function governance() payable {
+    return governanceAddress
+}
+
+function providerB() payable {
+    return providerBAddress
+}
+
+function tokenB() payable {
+    return tokenBAddress
+}
+
+function providerA() payable {
+    return providerAAddress
+}
+
+function WETH() payable {
+    return WETHAddress
+}
+
+function pid() payable {
+    return pid
+}
+
+function pendingGovernance() payable {
+    return pendingGovernanceAddress
+}
+
+function router() payable {
+    return routerAddress
+}
+
+function masterchef() payable {
+    return masterchefAddress
+}
+
+function _fallback() payable {
+    revert
+}
+
+function setPid(uint256 arg1) payable {
+    require calldata.size - 4 >= 32
+    require msg.sender == governanceAddress
+    pid = arg1
+}
+
+function setWETH(address arg1) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == arg1
+    require msg.sender == governanceAddress
+    WETHAddress = arg1
+}
+
+function acceptGovernor() payable {
+    require msg.sender == pendingGovernanceAddress
+    governanceAddress = pendingGovernanceAddress
+    pendingGovernanceAddress = 0
+}
+
+function setReward(address arg1) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == arg1
+    require msg.sender == governanceAddress
+    rewardAddress = arg1
+}
+
+function setStrategist(address arg1) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == arg1
+    require msg.sender == governanceAddress
+    strategistAddress = arg1
+}
+
+function sub_2ab60b87(?) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == address(arg1)
+    require msg.sender == governanceAddress
+    providerBAddress = address(arg1)
+}
+
+function sub_470973f3(?) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == address(arg1)
+    require msg.sender == governanceAddress
+    providerAAddress = address(arg1)
+}
+
+function setPendingGovernance(address arg1) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == arg1
+    require msg.sender == governanceAddress
+    pendingGovernanceAddress = arg1
+}
+
+function balanceOfA() payable {
+    require ext_code.size(tokenAAddress)
+    staticcall tokenAAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    return ext_call.return_data[0]
+}
+
+function balanceOfB() payable {
+    require ext_code.size(tokenBAddress)
+    staticcall tokenBAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    return ext_call.return_data[0]
+}
+
+function balanceOfReward() payable {
+    require ext_code.size(rewardAddress)
+    staticcall rewardAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    return ext_call.return_data[0]
+}
+
+function pendingReward() payable {
+    require ext_code.size(masterchefAddress)
+    staticcall masterchefAddress.0xa279b07f with:
+            gas gas_remaining wei
+           args pid, this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    return ext_call.return_data[0]
+}
+
+function getReward() payable {
+    if governanceAddress != msg.sender:
+        require msg.sender == strategistAddress
+    require ext_code.size(masterchefAddress)
+    call masterchefAddress.deposit(uint256 rg1, uint256 rg2) with:
+         gas gas_remaining wei
+        args pid, 0
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+}
+
+function balanceOfStake() payable {
+    require ext_code.size(masterchefAddress)
+    staticcall masterchefAddress.userInfo(uint256 rg1, address rg2) with:
+            gas gas_remaining wei
+           args pid, this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 64
+    require bool(ceil32(return_data.size) + 160 <= test266151307())
+    return ext_call.return_data[0]
+}
+
+function getPair() payable {
+    require ext_code.size(routerAddress)
+    staticcall routerAddress.factory() with:
+            gas gas_remaining wei
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0xe6a43905 with:
+            gas gas_remaining wei
+           args tokenAAddress, tokenBAddress
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    return ext_call.return_data[12 len 20]
+}
+
+function balanceOfPair() payable {
+    require ext_code.size(routerAddress)
+    staticcall routerAddress.factory() with:
+            gas gas_remaining wei
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0xe6a43905 with:
+            gas gas_remaining wei
+           args tokenAAddress, tokenBAddress
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    return ext_call.return_data[0]
+}
+
+function setMasterChef(address arg1) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == arg1
+    require msg.sender == governanceAddress
+    masterchefAddress = arg1
+    require ext_code.size(routerAddress)
+    staticcall routerAddress.factory() with:
+            gas gas_remaining wei
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0xe6a43905 with:
+            gas gas_remaining wei
+           args tokenAAddress, tokenBAddress
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    call address(ext_call.return_data[0]).approve(address rg1, uint256 rg2) with:
+         gas gas_remaining wei
+        args address(arg1), -1
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == bool(ext_call.return_data[0])
+}
+
+function sub_8a160b54(?) payable {
+    if governanceAddress != msg.sender:
+        require msg.sender == strategistAddress
+    require ext_code.size(tokenAAddress)
+    staticcall tokenAAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    if ext_call.return_data[0]:
+        require ext_code.size(tokenAAddress)
+        call tokenAAddress.0xa9059cbb with:
+             gas gas_remaining wei
+            args providerAAddress, ext_call.return_data[0]
+        if not ext_call.success:
+            revert with ext_call.return_data[0 len return_data.size]
+        require return_data.size >= 32
+        require ext_call.return_data[0] == bool(ext_call.return_data[0])
+    require ext_code.size(tokenBAddress)
+    staticcall tokenBAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    if ext_call.return_data[0]:
+        require ext_code.size(tokenBAddress)
+        call tokenBAddress.0xa9059cbb with:
+             gas gas_remaining wei
+            args providerBAddress, ext_call.return_data[0]
+        if not ext_call.success:
+            revert with ext_call.return_data[0 len return_data.size]
+        require return_data.size >= 32
+        require ext_call.return_data[0] == bool(ext_call.return_data[0])
+}
+
+function liquidatePosition() payable {
+    if governanceAddress != msg.sender:
+        require msg.sender == strategistAddress
+    require ext_code.size(masterchefAddress)
+    staticcall masterchefAddress.userInfo(uint256 rg1, address rg2) with:
+            gas gas_remaining wei
+           args pid, this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 64
+    require bool(ceil32(return_data.size) + 160 <= test266151307())
+    require ext_code.size(masterchefAddress)
+    call masterchefAddress.withdraw(uint256 rg1, uint256 rg2) with:
+         gas gas_remaining wei
+        args pid, ext_call.return_data[0]
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require ext_code.size(routerAddress)
+    staticcall routerAddress.factory() with:
+            gas gas_remaining wei
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0xe6a43905 with:
+            gas gas_remaining wei
+           args tokenAAddress, tokenBAddress
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_code.size(routerAddress)
+    call routerAddress.removeLiquidity(address rg1, address rg2, uint256 rg3, uint256 rg4, uint256 rg5, address rg6, uint256 rg7) with:
+         gas gas_remaining wei
+        args tokenAAddress, tokenBAddress, ext_call.return_data[0], 0, 0, address(this.address), block.timestamp
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 64
+}
+
+function sellCapital(address arg1, address arg2, uint256 arg3) payable {
+    require calldata.size - 4 >= 96
+    require arg1 == arg1
+    require arg2 == arg2
+    if governanceAddress != msg.sender:
+        require msg.sender == strategistAddress
+    if WETHAddress == arg1:
+        mem[128] = arg1
+        require WETHAddress == arg1
+        mem[160] = arg2
+        mem[192] = 0x5c11d79500000000000000000000000000000000000000000000000000000000
+        mem[196] = arg3
+        idx = 0
+        s = 388
+        t = 128
+        while idx < 2:
+            mem[s] = mem[t + 12 len 20]
+            idx = idx + 1
+            s = s + 32
+            t = t + 32
+            continue 
+        require ext_code.size(routerAddress)
+        call routerAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 rg1, uint256 rg2, address[] rg3, address rg4, uint256 rg5) with:
+             gas gas_remaining wei
+            args arg3, 0, 160, address(this.address), block.timestamp, 2, mem[388 len 64]
+    else:
+        if WETHAddress == arg2:
+            mem[128] = arg1
+            require WETHAddress == arg2
+            mem[160] = arg2
+            mem[192] = 0x5c11d79500000000000000000000000000000000000000000000000000000000
+            mem[196] = arg3
+            idx = 0
+            s = 388
+            t = 128
+            while idx < 2:
+                mem[s] = mem[t + 12 len 20]
+                idx = idx + 1
+                s = s + 32
+                t = t + 32
+                continue 
+            require ext_code.size(routerAddress)
+            call routerAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 rg1, uint256 rg2, address[] rg3, address rg4, uint256 rg5) with:
+                 gas gas_remaining wei
+                args arg3, 0, 160, address(this.address), block.timestamp, 2, mem[388 len 64]
+        else:
+            mem[128 len 96] = call.data[calldata.size len 96]
+            mem[128] = arg1
+            if WETHAddress == arg2:
+                mem[160] = arg2
+            else:
+                mem[160] = WETHAddress
+                mem[192] = arg2
+            mem[224] = 0x5c11d79500000000000000000000000000000000000000000000000000000000
+            mem[228] = arg3
+            idx = 0
+            s = 420
+            t = 128
+            while idx < 3:
+                mem[s] = mem[t + 12 len 20]
+                idx = idx + 1
+                s = s + 32
+                t = t + 32
+                continue 
+            require ext_code.size(routerAddress)
+            call routerAddress.swapExactTokensForTokensSupportingFeeOnTransferTokens(uint256 rg1, uint256 rg2, address[] rg3, address rg4, uint256 rg5) with:
+                 gas gas_remaining wei
+                args arg3, 0, 160, address(this.address), block.timestamp, 3, mem[420 len 96]
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+}
+
+function invest() payable {
+    if governanceAddress != msg.sender:
+        require msg.sender == strategistAddress
+    require ext_code.size(tokenAAddress)
+    staticcall tokenAAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_code.size(tokenBAddress)
+    staticcall tokenBAddress.0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_code.size(routerAddress)
+    call routerAddress.addLiquidity(address rg1, address rg2, uint256 rg3, uint256 rg4, uint256 rg5, uint256 rg6, address rg7, uint256 rg8) with:
+         gas gas_remaining wei
+        args tokenAAddress, tokenBAddress, ext_call.return_data[0], ext_call.return_data[0], 0, 0, address(this.address), block.timestamp
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 96
+    require ext_code.size(routerAddress)
+    staticcall routerAddress.factory() with:
+            gas gas_remaining wei
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0xe6a43905 with:
+            gas gas_remaining wei
+           args tokenAAddress, tokenBAddress
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+    require ext_code.size(address(ext_call.return_data[0]))
+    staticcall address(ext_call.return_data[0]).0x70a08231 with:
+            gas gas_remaining wei
+           args this.address
+    if not ext_call.success:
+        revert with ext_call.return_data[0 len return_data.size]
+    require return_data.size >= 32
+    if ext_call.return_data[0] > 0:
+        require ext_code.size(routerAddress)
+        staticcall routerAddress.factory() with:
+                gas gas_remaining wei
+        if not ext_call.success:
+            revert with ext_call.return_data[0 len return_data.size]
+        require return_data.size >= 32
+        require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+        require ext_code.size(address(ext_call.return_data[0]))
+        staticcall address(ext_call.return_data[0]).0xe6a43905 with:
+                gas gas_remaining wei
+               args tokenAAddress, tokenBAddress
+        if not ext_call.success:
+            revert with ext_call.return_data[0 len return_data.size]
+        require return_data.size >= 32
+        require ext_call.return_data[0] == ext_call.return_data[12 len 20]
+        require ext_code.size(address(ext_call.return_data[0]))
+        staticcall address(ext_call.return_data[0]).0x70a08231 with:
+                gas gas_remaining wei
+               args this.address
+        if not ext_call.success:
+            revert with ext_call.return_data[0 len return_data.size]
+        require return_data.size >= 32
+        require ext_code.size(masterchefAddress)
+        call masterchefAddress.deposit(uint256 rg1, uint256 rg2) with:
+             gas gas_remaining wei
+            args pid, ext_call.return_data[0]
+        if not ext_call.success:
+            revert with ext_call.return_data[0 len return_data.size]
+}
+
+
+
+}
