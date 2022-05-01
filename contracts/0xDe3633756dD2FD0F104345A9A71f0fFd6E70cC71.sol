@@ -160,7 +160,7 @@ function pancakeCall(address arg1, uint256 arg2, uint256 arg3, bytes arg4) {
                 require ext_code.size(mem[300 len 20])
                 call mem[300 len 20].swap(uint256 arg1, uint256 arg2, address arg3, bytes arg4) with:
                      gas gas_remaining wei
-                    args 0, _12, address(this.address), 128, 0, 0
+                    args 0, _12, address(this.address), 128, 0, None
                 if not ext_call.success:
                     revert with ext_call.return_data[0 len return_data.size]
                 require ext_code.size(mem[140 len 20])
@@ -284,7 +284,7 @@ function pangolinCall(address arg1, uint256 arg2, uint256 arg3, bytes arg4) {
                 require ext_code.size(mem[300 len 20])
                 call mem[300 len 20].swap(uint256 arg1, uint256 arg2, address arg3, bytes arg4) with:
                      gas gas_remaining wei
-                    args 0, _12, address(this.address), 128, 0, 0
+                    args 0, _12, address(this.address), 128, 0, None
                 if not ext_call.success:
                     revert with ext_call.return_data[0 len return_data.size]
                 require ext_code.size(mem[140 len 20])
@@ -408,7 +408,7 @@ function uniswapV2Call(address arg1, uint256 arg2, uint256 arg3, bytes arg4) {
                 require ext_code.size(mem[300 len 20])
                 call mem[300 len 20].swap(uint256 arg1, uint256 arg2, address arg3, bytes arg4) with:
                      gas gas_remaining wei
-                    args 0, _12, address(this.address), 128, 0, 0
+                    args 0, _12, address(this.address), 128, 0, None
                 if not ext_call.success:
                     revert with ext_call.return_data[0 len return_data.size]
                 require ext_code.size(mem[140 len 20])
