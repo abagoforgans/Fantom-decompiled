@@ -1,0 +1,33 @@
+contract main {
+
+
+
+
+// =====================  Runtime code  =====================
+
+
+mapping of address deployed;
+
+function deployed(address arg1) payable {
+    require calldata.size - 4 >= 32
+    require arg1 == arg1
+    return deployed[arg1]
+}
+
+function _fallback() payable {
+    revert
+}
+
+function sub_a2151367(?) payable {
+    if deployed[msg.sender]:
+        revert with 0, 'Address already deployed'
+    create contract with 0 wei
+                    code: code.data[411 len 3034], address(msg.sender)
+    if not create.new_address:
+        revert with ext_call.return_data[0 len return_data.size]
+    deployed[msg.sender] = address(create.new_address)
+}
+
+
+
+}
