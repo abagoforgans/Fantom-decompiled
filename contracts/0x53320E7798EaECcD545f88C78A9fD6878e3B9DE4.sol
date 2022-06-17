@@ -829,6 +829,7 @@ function getNames(uint256 arg1) payable {
                len _173 + ceil32(_181) + ceil32(_101) + -mem[64] + 192
         mem[_97 + ceil32(return_data.size) + _101 + 32] = 0
         mem[ceil32(return_data.size) + 256] = _97 + ceil32(return_data.size)
+        _175 = mem[64]
         mem[mem[64]] = 32
         mem[mem[64] + 32] = 96
         _183 = mem[(2 * ceil32(return_data.size)) + 288]
@@ -849,17 +850,14 @@ function getNames(uint256 arg1) payable {
                    mem[mem[64] + ceil32(_183) + 192 len ceil32(_101)]
         mem[mem[64] + _183 + 160] = 0
         mem[mem[64] + 64] = ext_call.return_data[0]
-        mem[mem[64] + 96] = ceil32(_183) + 128
-        mem[mem[64] + ceil32(_183) + 160] = _101
-        mem[mem[64] + ceil32(_183) + 192 len ceil32(_101)] = mem[_97 + ceil32(return_data.size) + 32 len ceil32(_101)]
+        mem[_175 + 96] = ceil32(_183) + 128
+        mem[_175 + ceil32(_183) + 160] = _101
+        mem[_175 + ceil32(_183) + 192 len ceil32(_101)] = mem[_97 + ceil32(return_data.size) + 32 len ceil32(_101)]
         if ceil32(_101) > _101:
-            mem[mem[64] + ceil32(_183) + _101 + 192] = 0
-        return 32, 96, 
-               ext_call.return_data[0],
-               ceil32(_183) + 128,
-               mem[mem[64] + 128 len _183 + 32],
-               0,
-               mem[mem[64] + _183 + 192 len ceil32(_183) + ceil32(_101) - _183]
+            mem[_175 + ceil32(_183) + _101 + 192] = 0
+        return memory
+          from mem[64]
+           len _175 + ceil32(_183) + ceil32(_101) + -mem[64] + 192
     mem[(2 * ceil32(return_data.size)) + _11 + 320] = 0
     mem[ceil32(return_data.size) + 192] = (2 * ceil32(return_data.size)) + 288
     mem[ceil32(return_data.size) + 224] = ext_call.return_data[0]
@@ -920,6 +918,7 @@ function getNames(uint256 arg1) payable {
            len _174 + ceil32(_182) + ceil32(_102) + -mem[64] + 192
     mem[_98 + ceil32(return_data.size) + _102 + 32] = 0
     mem[ceil32(return_data.size) + 256] = _98 + ceil32(return_data.size)
+    _176 = mem[64]
     mem[mem[64]] = 32
     mem[mem[64] + 32] = 96
     _184 = mem[(2 * ceil32(return_data.size)) + 288]
@@ -940,17 +939,14 @@ function getNames(uint256 arg1) payable {
                mem[mem[64] + ceil32(_184) + 192 len ceil32(_102)]
     mem[mem[64] + _184 + 160] = 0
     mem[mem[64] + 64] = ext_call.return_data[0]
-    mem[mem[64] + 96] = ceil32(_184) + 128
-    mem[mem[64] + ceil32(_184) + 160] = _102
-    mem[mem[64] + ceil32(_184) + 192 len ceil32(_102)] = mem[_98 + ceil32(return_data.size) + 32 len ceil32(_102)]
+    mem[_176 + 96] = ceil32(_184) + 128
+    mem[_176 + ceil32(_184) + 160] = _102
+    mem[_176 + ceil32(_184) + 192 len ceil32(_102)] = mem[_98 + ceil32(return_data.size) + 32 len ceil32(_102)]
     if ceil32(_102) > _102:
-        mem[mem[64] + ceil32(_184) + _102 + 192] = 0
-    return 32, 96, 
-           ext_call.return_data[0],
-           ceil32(_184) + 128,
-           mem[mem[64] + 128 len _184 + 32],
-           0,
-           mem[mem[64] + _184 + 192 len ceil32(_184) + ceil32(_102) - _184]
+        mem[_176 + ceil32(_184) + _102 + 192] = 0
+    return memory
+      from mem[64]
+       len _176 + ceil32(_184) + ceil32(_102) + -mem[64] + 192
 }
 
 function sub_0c55baa9(?) payable {
@@ -1142,7 +1138,7 @@ function sub_0c55baa9(?) payable {
     if (8 * ceil32(return_data.size)) + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + 6528] + 6528])) + 6625 > test266151307() or ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + 6528] + 6528])) + 97 < 96:
         revert with 'NH{q', 65
     mem[64] = (8 * ceil32(return_data.size)) + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + 6528] + 6528])) + 6625
-    mem[(8 * ceil32(return_data.size)) + 6624] = mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + 6528] + 6528]
+    mem[(8 * ceil32(return_data.size)) + 6624] = _70
     require mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + _69 + _70 + 32 <= return_data.size
     mem[(8 * ceil32(return_data.size)) + 6656 len ceil32(_70)] = mem[(7 * ceil32(return_data.size)) + mem[(7 * ceil32(return_data.size)) + 6528 len 4], Mask(224, 32, arg1) >> 32 + _69 + 6560 len ceil32(_70)]
     if ceil32(_70) <= _70:
@@ -1159,7 +1155,7 @@ function sub_0c55baa9(?) payable {
         if mem[64] + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528])) + 1 > test266151307() or mem[64] + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528])) + 1 < mem[64]:
             revert with 'NH{q', 65
         mem[64] = mem[64] + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528])) + 1
-        mem[_202] = _200
+        mem[_202] = mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528]
         require _67 + _198 + _200 + 32 <= return_data.size
         mem[_202 + 32 len ceil32(_200)] = mem[(7 * ceil32(return_data.size)) + _67 + _198 + 6560 len ceil32(_200)]
         if ceil32(_200) <= _200:
@@ -1406,7 +1402,7 @@ function sub_0c55baa9(?) payable {
     if mem[64] + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528])) + 1 > test266151307() or mem[64] + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528])) + 1 < mem[64]:
         revert with 'NH{q', 65
     mem[64] = mem[64] + ceil32(ceil32(mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528])) + 1
-    mem[_203] = _201
+    mem[_203] = mem[(7 * ceil32(return_data.size)) + _67 + mem[(7 * ceil32(return_data.size)) + _67 + 6592] + 6528]
     require _67 + _199 + _201 + 32 <= return_data.size
     mem[_203 + 32 len ceil32(_201)] = mem[(7 * ceil32(return_data.size)) + _67 + _199 + 6560 len ceil32(_201)]
     if ceil32(_201) <= _201:

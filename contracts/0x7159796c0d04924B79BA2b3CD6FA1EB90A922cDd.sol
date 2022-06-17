@@ -114,6 +114,7 @@ function drainBEP20Token(address arg1, uint256 arg2, address arg3) payable {
     if not ext_code.size(arg1):
         revert with 0, 'Address: call to non-contract'
     mem[260 len 64] = unknown_0xa9059cbb(?????), address(arg3) << 64, 0, Mask(224, 32, arg2) >> 32
+    mem[324 len 0] = 0
     call arg1 with:
          gas gas_remaining wei
         args Mask(224, 32, arg2) << 224, mem[324 len 4]

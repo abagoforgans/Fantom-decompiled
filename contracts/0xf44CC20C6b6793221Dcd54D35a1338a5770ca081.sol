@@ -350,6 +350,7 @@ function withdraw(uint256 arg1) payable {
             if ext_code.size(wantAddress) <= 0:
                 revert with 0, 'Address: call to non-contract'
             mem[324 len 64] = unknown_0xa9059cbb(?????), Mask(224, 0, stor3), uint32(stor3), ext_call.return_data[0 len 28]
+            mem[388 len 0] = 0
             call wantAddress with:
                funct uint32(stor3)
                  gas gas_remaining wei
@@ -375,6 +376,7 @@ function withdraw(uint256 arg1) payable {
                 if ext_code.size(wantAddress) <= 0:
                     revert with 0, 'Address: call to non-contract'
                 mem[324 len 64] = unknown_0xa9059cbb(?????), Mask(224, 0, stor3), uint32(stor3), ext_call.return_data[0 len 28]
+                mem[388 len 0] = 0
                 call wantAddress with:
                    funct uint32(stor3)
                      gas gas_remaining wei
@@ -421,6 +423,7 @@ function withdraw(uint256 arg1) payable {
                     if ext_code.size(wantAddress) <= 0:
                         revert with 0, 'Address: call to non-contract'
                     mem[452 len 64] = unknown_0xa9059cbb(?????), Mask(224, 0, stor3), uint32(stor3), Mask(224, 32, ext_call.return_data[0] - (ext_call.return_data[0] * WITHDRAW_FEE / WITHDRAWAL_MAX)) >> 32
+                    mem[516 len 0] = 0
                     call wantAddress with:
                        funct uint32(stor3)
                          gas gas_remaining wei
@@ -446,7 +449,6 @@ function withdraw(uint256 arg1) payable {
             if ext_code.size(wantAddress) <= 0:
                 revert with 0, 'Address: call to non-contract'
             mem[324 len 64] = unknown_0xa9059cbb(?????), Mask(224, 0, stor3), uint32(stor3), Mask(224, 32, arg1) >> 32
-            mem[388 len 0] = 0
             call wantAddress with:
                funct uint32(stor3)
                  gas gas_remaining wei
@@ -639,20 +641,14 @@ function makeCustomTxn(address arg1, address arg2, address arg3, uint256 arg4) p
                             54,
                             0x645361666545524332303a20617070726f76652066726f6d206e6f6e2d7a65726f20746f206e6f6e2d7a65726f20616c6c6f77616e63,
                             mem[382 len 10]
-            mem[296] = arg3
-            mem[328] = -1
-            mem[260] = 68
-            mem[296 len 28] = address(arg3) << 64
-            mem[292 len 4] = approve(address arg1, uint256 arg2)
-            mem[360] = 32
-            mem[392] = 'SafeERC20: low-level call failed'
             if ext_code.size(arg1) <= 0:
                 revert with 0, 'Address: call to non-contract'
             mem[424 len 64] = approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff
             mem[516 len 4] = 0
+            mem[488 len 0] = 0
             call arg1 with:
                  gas gas_remaining wei
-                args 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000, mem[488 len 4]
+                args Mask(480, -256, approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff) << 256, mem[488 len 4]
             if not return_data.size:
                 if not ext_call.success:
                     revert with approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0
@@ -781,7 +777,164 @@ function makeCustomTxn(address arg1, address arg2, address arg3, uint256 arg4) p
                 if return_data.size > 0:
                     revert with ext_call.return_data[0 len return_data.size]
                 revert with 0, 'SafeERC20: low-level call failed'
-            if return_data.size > 0:
+            if return_data.size <= 0:
+                require ext_code.size(arg1)
+                staticcall arg1.0xdd62ed3e with:
+                        gas gas_remaining wei
+                       args address(this.address), arg3
+                if not ext_call.success:
+                    revert with ext_call.return_data[0 len return_data.size]
+                require return_data.size >= 32
+                if ext_call.return_data[0]:
+                    revert with 0, 
+                                32,
+                                54,
+                                0x645361666545524332303a20617070726f76652066726f6d206e6f6e2d7a65726f20746f206e6f6e2d7a65726f20616c6c6f77616e63,
+                                mem[ceil32(return_data.size) + 383 len 10]
+                mem[ceil32(return_data.size) + 297] = arg3
+                mem[ceil32(return_data.size) + 329] = -1
+                mem[ceil32(return_data.size) + 261] = 68
+                mem[ceil32(return_data.size) + 297 len 28] = address(arg3) << 64
+                mem[ceil32(return_data.size) + 293 len 4] = approve(address arg1, uint256 arg2)
+                mem[ceil32(return_data.size) + 361] = 32
+                mem[ceil32(return_data.size) + 393] = 'SafeERC20: low-level call failed'
+                if ext_code.size(arg1) <= 0:
+                    revert with 0, 'Address: call to non-contract'
+                mem[ceil32(return_data.size) + 425 len 64] = approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                mem[ceil32(return_data.size) + 517 len 4] = 0
+                call arg1 with:
+                     gas gas_remaining wei
+                    args 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000, mem[ceil32(return_data.size) + 489 len 4]
+                if not return_data.size:
+                    if not ext_call.success:
+                        revert with approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0
+                    if not approve(address arg1, uint256 arg2), address(arg3) << 64:
+                        revert with 0, 
+                                    32,
+                                    42,
+                                    0x775361666545524332303a204552433230206f7065726174696f6e20646964206e6f7420737563636565,
+                                    mem[ceil32(return_data.size) + 535 len 22]
+                    mem[ceil32(return_data.size) + 425] = arg1
+                    mem[ceil32(return_data.size) + 457] = arg2
+                    stor24.length = 2
+                    s = 0
+                    idx = ceil32(return_data.size) + 425
+                    while ceil32(return_data.size) + 489 > idx:
+                        stor24[s].field_0 = mem[idx + 12 len 20]
+                        s = s + 1
+                        idx = idx + 32
+                        continue 
+                    idx = 2
+                    while stor24.length > idx:
+                        stor24[idx].field_0 = 0
+                        idx = idx + 1
+                        continue 
+                    if block.timestamp + 600 < block.timestamp:
+                        revert with 0, 'SafeMath: addition overflow'
+                    mem[ceil32(return_data.size) + 489] = 0x38ed173900000000000000000000000000000000000000000000000000000000
+                    mem[ceil32(return_data.size) + 493] = arg4
+                    mem[ceil32(return_data.size) + 525] = 0
+                    mem[ceil32(return_data.size) + 589] = this.address
+                    mem[ceil32(return_data.size) + 621] = block.timestamp + 600
+                    mem[ceil32(return_data.size) + 557] = 160
+                    mem[ceil32(return_data.size) + 653] = stor24.length
+                    if not stor24.length:
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length
+                    else:
+                        mem[0] = 24
+                        mem[ceil32(return_data.size) + 685] = address(stor24.field_0)
+                        idx = ceil32(return_data.size) + 685
+                        s = 0
+                        while ceil32(return_data.size) + (32 * stor24.length) + 685 > idx + 32:
+                            mem[idx + 32] = stor24[s].field_256
+                            idx = idx + 32
+                            s = s + 1
+                            continue 
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[ceil32(return_data.size) + 685 len 32 * stor24.length]
+                    if not ext_call.success:
+                        revert with ext_call.return_data[0 len return_data.size]
+                    mem[ceil32(return_data.size) + 489 len return_data.size] = ext_call.return_data[0 len return_data.size]
+                    mem[64] = ceil32(return_data.size) + ceil32(return_data.size) + 489
+                    require return_data.size >= 32
+                    require mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 <= 4294967296
+                    require mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + 32 <= return_data.size
+                    require mem[mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + ceil32(return_data.size) + 489] <= 4294967296 and mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + (32 * mem[mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + ceil32(return_data.size) + 489]) + 32 <= return_data.size
+                else:
+                    mem[ceil32(return_data.size) + 425] = return_data.size
+                    mem[ceil32(return_data.size) + 457 len return_data.size] = ext_call.return_data[0 len return_data.size]
+                    if not ext_call.success:
+                        if return_data.size > 0:
+                            revert with ext_call.return_data[0 len return_data.size]
+                        revert with 0, 'SafeERC20: low-level call failed'
+                    if return_data.size > 0:
+                        require return_data.size >= 32
+                        if not mem[ceil32(return_data.size) + 457]:
+                            revert with 0, 
+                                        32,
+                                        42,
+                                        0x775361666545524332303a204552433230206f7065726174696f6e20646964206e6f7420737563636565,
+                                        mem[(2 * ceil32(return_data.size)) + 536 len (2 * ceil32(return_data.size)) + (-2 * ceil32(return_data.size)) + 22]
+                    mem[(2 * ceil32(return_data.size)) + 426] = arg1
+                    mem[(2 * ceil32(return_data.size)) + 458] = arg2
+                    stor24.length = 2
+                    mem[0] = 24
+                    s = 0
+                    idx = (2 * ceil32(return_data.size)) + 426
+                    while (2 * ceil32(return_data.size)) + 490 > idx:
+                        stor24[s].field_0 = mem[idx + 12 len 20]
+                        s = s + 1
+                        idx = idx + 32
+                        continue 
+                    idx = 2
+                    while stor24.length > idx:
+                        stor24[idx].field_0 = 0
+                        idx = idx + 1
+                        continue 
+                    if block.timestamp + 600 < block.timestamp:
+                        revert with 0, 
+                                    'SafeMath: addition overflow',
+                                    mem[(2 * ceil32(return_data.size)) + 590 len (2 * ceil32(return_data.size)) - (2 * ceil32(return_data.size))]
+                    mem[(2 * ceil32(return_data.size)) + 490] = 0x38ed173900000000000000000000000000000000000000000000000000000000
+                    mem[(2 * ceil32(return_data.size)) + 494] = arg4
+                    mem[(2 * ceil32(return_data.size)) + 526] = 0
+                    mem[(2 * ceil32(return_data.size)) + 590] = this.address
+                    mem[(2 * ceil32(return_data.size)) + 622] = block.timestamp + 600
+                    mem[(2 * ceil32(return_data.size)) + 558] = 160
+                    mem[(2 * ceil32(return_data.size)) + 654] = stor24.length
+                    if not stor24.length:
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[(2 * ceil32(return_data.size)) + 686 len (2 * ceil32(return_data.size)) - (2 * ceil32(return_data.size))]
+                    else:
+                        mem[0] = 24
+                        mem[(2 * ceil32(return_data.size)) + 686] = address(stor24.field_0)
+                        idx = (2 * ceil32(return_data.size)) + 686
+                        s = 0
+                        while (2 * ceil32(return_data.size)) + (32 * stor24.length) + 686 > idx + 32:
+                            mem[idx + 32] = stor24[s].field_256
+                            idx = idx + 32
+                            s = s + 1
+                            continue 
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[(2 * ceil32(return_data.size)) + 686 len (2 * ceil32(return_data.size)) + (32 * stor24.length) - (2 * ceil32(return_data.size))]
+                    if not ext_call.success:
+                        revert with ext_call.return_data[0 len return_data.size]
+                    mem[(2 * ceil32(return_data.size)) + 490 len return_data.size] = ext_call.return_data[0 len return_data.size]
+                    mem[64] = (4 * ceil32(return_data.size)) + 490
+                    require return_data.size >= 32
+                    require mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 <= 4294967296
+                    require mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + 32 <= return_data.size
+                    require mem[mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (2 * ceil32(return_data.size)) + 490] <= 4294967296 and mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (32 * mem[mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (2 * ceil32(return_data.size)) + 490]) + 32 <= return_data.size
+            else:
                 require return_data.size >= 32
                 if not mem[292]:
                     revert with 0, 
@@ -789,160 +942,161 @@ function makeCustomTxn(address arg1, address arg2, address arg3, uint256 arg4) p
                                 42,
                                 0x775361666545524332303a204552433230206f7065726174696f6e20646964206e6f7420737563636565,
                                 mem[ceil32(return_data.size) + 371 len 22]
-            require ext_code.size(arg1)
-            staticcall arg1.0xdd62ed3e with:
-                    gas gas_remaining wei
-                   args address(this.address), arg3
-            if not ext_call.success:
-                revert with ext_call.return_data[0 len return_data.size]
-            require return_data.size >= 32
-            if ext_call.return_data[0]:
-                revert with 0, 
-                            32,
-                            54,
-                            0x645361666545524332303a20617070726f76652066726f6d206e6f6e2d7a65726f20746f206e6f6e2d7a65726f20616c6c6f77616e63,
-                            mem[ceil32(return_data.size) + 383 len 10]
-            mem[ceil32(return_data.size) + 297] = arg3
-            mem[ceil32(return_data.size) + 329] = -1
-            mem[ceil32(return_data.size) + 261] = 68
-            mem[ceil32(return_data.size) + 297 len 28] = address(arg3) << 64
-            mem[ceil32(return_data.size) + 293 len 4] = approve(address arg1, uint256 arg2)
-            mem[ceil32(return_data.size) + 361] = 32
-            mem[ceil32(return_data.size) + 393] = 'SafeERC20: low-level call failed'
-            if ext_code.size(arg1) <= 0:
-                revert with 0, 'Address: call to non-contract'
-            mem[ceil32(return_data.size) + 425 len 64] = approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-            mem[ceil32(return_data.size) + 517 len 4] = 0
-            call arg1 with:
-                 gas gas_remaining wei
-                args 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000, mem[ceil32(return_data.size) + 489 len 4]
-            if not return_data.size:
-                if not ext_call.success:
-                    revert with approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0
-                if not approve(address arg1, uint256 arg2), address(arg3) << 64:
-                    revert with 0, 
-                                32,
-                                42,
-                                0x775361666545524332303a204552433230206f7065726174696f6e20646964206e6f7420737563636565,
-                                mem[ceil32(return_data.size) + 535 len 22]
-                mem[ceil32(return_data.size) + 425] = arg1
-                mem[ceil32(return_data.size) + 457] = arg2
-                stor24.length = 2
-                s = 0
-                idx = ceil32(return_data.size) + 425
-                while ceil32(return_data.size) + 489 > idx:
-                    stor24[s].field_0 = mem[idx + 12 len 20]
-                    s = s + 1
-                    idx = idx + 32
-                    continue 
-                idx = 2
-                while stor24.length > idx:
-                    stor24[idx].field_0 = 0
-                    idx = idx + 1
-                    continue 
-                if block.timestamp + 600 < block.timestamp:
-                    revert with 0, 'SafeMath: addition overflow'
-                mem[ceil32(return_data.size) + 489] = 0x38ed173900000000000000000000000000000000000000000000000000000000
-                mem[ceil32(return_data.size) + 493] = arg4
-                mem[ceil32(return_data.size) + 525] = 0
-                mem[ceil32(return_data.size) + 589] = this.address
-                mem[ceil32(return_data.size) + 621] = block.timestamp + 600
-                mem[ceil32(return_data.size) + 557] = 160
-                mem[ceil32(return_data.size) + 653] = stor24.length
-                if not stor24.length:
-                    require ext_code.size(arg3)
-                    call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
-                         gas gas_remaining wei
-                        args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length
-                else:
-                    mem[0] = 24
-                    mem[ceil32(return_data.size) + 685] = address(stor24.field_0)
-                    idx = ceil32(return_data.size) + 685
-                    s = 0
-                    while ceil32(return_data.size) + (32 * stor24.length) + 685 > idx + 32:
-                        mem[idx + 32] = stor24[s].field_256
-                        idx = idx + 32
-                        s = s + 1
-                        continue 
-                    require ext_code.size(arg3)
-                    call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
-                         gas gas_remaining wei
-                        args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[ceil32(return_data.size) + 685 len 32 * stor24.length]
+                require ext_code.size(arg1)
+                staticcall arg1.0xdd62ed3e with:
+                        gas gas_remaining wei
+                       args address(this.address), arg3
                 if not ext_call.success:
                     revert with ext_call.return_data[0 len return_data.size]
-                mem[ceil32(return_data.size) + 489 len return_data.size] = ext_call.return_data[0 len return_data.size]
-                mem[64] = ceil32(return_data.size) + ceil32(return_data.size) + 489
                 require return_data.size >= 32
-                require mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 <= 4294967296
-                require mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + 32 <= return_data.size
-                require mem[mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + ceil32(return_data.size) + 489] <= 4294967296 and mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + (32 * mem[mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + ceil32(return_data.size) + 489]) + 32 <= return_data.size
-            else:
-                mem[ceil32(return_data.size) + 457 len return_data.size] = ext_call.return_data[0 len return_data.size]
-                if not ext_call.success:
-                    if return_data.size > 0:
-                        revert with ext_call.return_data[0 len return_data.size]
-                    revert with 0, 'SafeERC20: low-level call failed'
-                if return_data.size > 0:
-                    require return_data.size >= 32
-                    if not mem[ceil32(return_data.size) + 457]:
+                if ext_call.return_data[0]:
+                    revert with 0, 
+                                32,
+                                54,
+                                0x645361666545524332303a20617070726f76652066726f6d206e6f6e2d7a65726f20746f206e6f6e2d7a65726f20616c6c6f77616e63,
+                                mem[ceil32(return_data.size) + 383 len 10]
+                mem[ceil32(return_data.size) + 297] = arg3
+                mem[ceil32(return_data.size) + 329] = -1
+                mem[ceil32(return_data.size) + 261] = 68
+                mem[ceil32(return_data.size) + 297 len 28] = address(arg3) << 64
+                mem[ceil32(return_data.size) + 293 len 4] = approve(address arg1, uint256 arg2)
+                mem[ceil32(return_data.size) + 361] = 32
+                mem[ceil32(return_data.size) + 393] = 'SafeERC20: low-level call failed'
+                if ext_code.size(arg1) <= 0:
+                    revert with 0, 'Address: call to non-contract'
+                mem[ceil32(return_data.size) + 425 len 64] = approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+                mem[ceil32(return_data.size) + 517 len 4] = 0
+                mem[ceil32(return_data.size) + 489 len 0] = 0
+                call arg1 with:
+                     gas gas_remaining wei
+                    args Mask(480, -256, approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffff) << 256, mem[ceil32(return_data.size) + 489 len 4]
+                if not return_data.size:
+                    if not ext_call.success:
+                        revert with approve(address arg1, uint256 arg2), address(arg3) << 64, 0, 0
+                    if not approve(address arg1, uint256 arg2), address(arg3) << 64:
                         revert with 0, 
                                     32,
                                     42,
                                     0x775361666545524332303a204552433230206f7065726174696f6e20646964206e6f7420737563636565,
-                                    mem[(2 * ceil32(return_data.size)) + 536 len (2 * ceil32(return_data.size)) + (-2 * ceil32(return_data.size)) + 22]
-                mem[(2 * ceil32(return_data.size)) + 426] = arg1
-                mem[(2 * ceil32(return_data.size)) + 458] = arg2
-                stor24.length = 2
-                s = 0
-                idx = (2 * ceil32(return_data.size)) + 426
-                while (2 * ceil32(return_data.size)) + 490 > idx:
-                    stor24[s].field_0 = mem[idx + 12 len 20]
-                    s = s + 1
-                    idx = idx + 32
-                    continue 
-                idx = 2
-                while stor24.length > idx:
-                    stor24[idx].field_0 = 0
-                    idx = idx + 1
-                    continue 
-                if block.timestamp + 600 < block.timestamp:
-                    revert with 0, 
-                                'SafeMath: addition overflow',
-                                mem[(2 * ceil32(return_data.size)) + 590 len (2 * ceil32(return_data.size)) - (2 * ceil32(return_data.size))]
-                mem[(2 * ceil32(return_data.size)) + 490] = 0x38ed173900000000000000000000000000000000000000000000000000000000
-                mem[(2 * ceil32(return_data.size)) + 494] = arg4
-                mem[(2 * ceil32(return_data.size)) + 526] = 0
-                mem[(2 * ceil32(return_data.size)) + 590] = this.address
-                mem[(2 * ceil32(return_data.size)) + 622] = block.timestamp + 600
-                mem[(2 * ceil32(return_data.size)) + 558] = 160
-                mem[(2 * ceil32(return_data.size)) + 654] = stor24.length
-                if not stor24.length:
-                    require ext_code.size(arg3)
-                    call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
-                         gas gas_remaining wei
-                        args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[(2 * ceil32(return_data.size)) + 686 len (2 * ceil32(return_data.size)) - (2 * ceil32(return_data.size))]
-                else:
-                    mem[0] = 24
-                    mem[(2 * ceil32(return_data.size)) + 686] = address(stor24.field_0)
-                    idx = (2 * ceil32(return_data.size)) + 686
+                                    mem[ceil32(return_data.size) + 535 len 22]
+                    mem[ceil32(return_data.size) + 425] = arg1
+                    mem[ceil32(return_data.size) + 457] = arg2
+                    stor24.length = 2
                     s = 0
-                    while (2 * ceil32(return_data.size)) + (32 * stor24.length) + 686 > idx + 32:
-                        mem[idx + 32] = stor24[s].field_256
-                        idx = idx + 32
+                    idx = ceil32(return_data.size) + 425
+                    while ceil32(return_data.size) + 489 > idx:
+                        stor24[s].field_0 = mem[idx + 12 len 20]
                         s = s + 1
+                        idx = idx + 32
                         continue 
-                    require ext_code.size(arg3)
-                    call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
-                         gas gas_remaining wei
-                        args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[(2 * ceil32(return_data.size)) + 686 len (2 * ceil32(return_data.size)) + (32 * stor24.length) - (2 * ceil32(return_data.size))]
-                if not ext_call.success:
-                    revert with ext_call.return_data[0 len return_data.size]
-                mem[(2 * ceil32(return_data.size)) + 490 len return_data.size] = ext_call.return_data[0 len return_data.size]
-                mem[64] = (4 * ceil32(return_data.size)) + 490
-                require return_data.size >= 32
-                require mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 <= 4294967296
-                require mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + 32 <= return_data.size
-                require mem[mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (2 * ceil32(return_data.size)) + 490] <= 4294967296 and mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (32 * mem[mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (2 * ceil32(return_data.size)) + 490]) + 32 <= return_data.size
+                    idx = 2
+                    while stor24.length > idx:
+                        stor24[idx].field_0 = 0
+                        idx = idx + 1
+                        continue 
+                    if block.timestamp + 600 < block.timestamp:
+                        revert with 0, 'SafeMath: addition overflow'
+                    mem[ceil32(return_data.size) + 489] = 0x38ed173900000000000000000000000000000000000000000000000000000000
+                    mem[ceil32(return_data.size) + 493] = arg4
+                    mem[ceil32(return_data.size) + 525] = 0
+                    mem[ceil32(return_data.size) + 589] = this.address
+                    mem[ceil32(return_data.size) + 621] = block.timestamp + 600
+                    mem[ceil32(return_data.size) + 557] = 160
+                    mem[ceil32(return_data.size) + 653] = stor24.length
+                    if not stor24.length:
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length
+                    else:
+                        mem[0] = 24
+                        mem[ceil32(return_data.size) + 685] = address(stor24.field_0)
+                        idx = ceil32(return_data.size) + 685
+                        s = 0
+                        while ceil32(return_data.size) + (32 * stor24.length) + 685 > idx + 32:
+                            mem[idx + 32] = stor24[s].field_256
+                            idx = idx + 32
+                            s = s + 1
+                            continue 
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[ceil32(return_data.size) + 685 len 32 * stor24.length]
+                    if not ext_call.success:
+                        revert with ext_call.return_data[0 len return_data.size]
+                    mem[ceil32(return_data.size) + 489 len return_data.size] = ext_call.return_data[0 len return_data.size]
+                    mem[64] = ceil32(return_data.size) + ceil32(return_data.size) + 489
+                    require return_data.size >= 32
+                    require mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 <= 4294967296
+                    require mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + 32 <= return_data.size
+                    require mem[mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + ceil32(return_data.size) + 489] <= 4294967296 and mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + (32 * mem[mem[ceil32(return_data.size) + 489 len 4], Mask(224, 32, arg4) >> 32 + ceil32(return_data.size) + 489]) + 32 <= return_data.size
+                else:
+                    mem[ceil32(return_data.size) + 425] = return_data.size
+                    mem[ceil32(return_data.size) + 457 len return_data.size] = ext_call.return_data[0 len return_data.size]
+                    if not ext_call.success:
+                        if return_data.size > 0:
+                            revert with ext_call.return_data[0 len return_data.size]
+                        revert with 0, 'SafeERC20: low-level call failed'
+                    if return_data.size > 0:
+                        require return_data.size >= 32
+                        if not mem[ceil32(return_data.size) + 457]:
+                            revert with 0, 
+                                        32,
+                                        42,
+                                        0x775361666545524332303a204552433230206f7065726174696f6e20646964206e6f7420737563636565,
+                                        mem[(2 * ceil32(return_data.size)) + 536 len 22]
+                    mem[(2 * ceil32(return_data.size)) + 426] = arg1
+                    mem[(2 * ceil32(return_data.size)) + 458] = arg2
+                    stor24.length = 2
+                    mem[0] = 24
+                    s = 0
+                    idx = (2 * ceil32(return_data.size)) + 426
+                    while (2 * ceil32(return_data.size)) + 490 > idx:
+                        stor24[s].field_0 = mem[idx + 12 len 20]
+                        s = s + 1
+                        idx = idx + 32
+                        continue 
+                    idx = 2
+                    while stor24.length > idx:
+                        stor24[idx].field_0 = 0
+                        idx = idx + 1
+                        continue 
+                    if block.timestamp + 600 < block.timestamp:
+                        revert with 0, 'SafeMath: addition overflow'
+                    mem[(2 * ceil32(return_data.size)) + 490] = 0x38ed173900000000000000000000000000000000000000000000000000000000
+                    mem[(2 * ceil32(return_data.size)) + 494] = arg4
+                    mem[(2 * ceil32(return_data.size)) + 526] = 0
+                    mem[(2 * ceil32(return_data.size)) + 590] = this.address
+                    mem[(2 * ceil32(return_data.size)) + 622] = block.timestamp + 600
+                    mem[(2 * ceil32(return_data.size)) + 558] = 160
+                    mem[(2 * ceil32(return_data.size)) + 654] = stor24.length
+                    if not stor24.length:
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length
+                    else:
+                        mem[0] = 24
+                        mem[(2 * ceil32(return_data.size)) + 686] = address(stor24.field_0)
+                        idx = (2 * ceil32(return_data.size)) + 686
+                        s = 0
+                        while (2 * ceil32(return_data.size)) + (32 * stor24.length) + 686 > idx + 32:
+                            mem[idx + 32] = stor24[s].field_256
+                            idx = idx + 32
+                            s = s + 1
+                            continue 
+                        require ext_code.size(arg3)
+                        call arg3.swapExactTokensForTokens(uint256 arg1, uint256 arg2, address[] arg3, address arg4, uint256 arg5) with:
+                             gas gas_remaining wei
+                            args arg4, 0, 160, address(this.address), block.timestamp + 600, stor24.length, mem[(2 * ceil32(return_data.size)) + 686 len 32 * stor24.length]
+                    if not ext_call.success:
+                        revert with ext_call.return_data[0 len return_data.size]
+                    mem[(2 * ceil32(return_data.size)) + 490 len return_data.size] = ext_call.return_data[0 len return_data.size]
+                    mem[64] = (4 * ceil32(return_data.size)) + 490
+                    require return_data.size >= 32
+                    require mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 <= 4294967296
+                    require mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + 32 <= return_data.size
+                    require mem[mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (2 * ceil32(return_data.size)) + 490] <= 4294967296 and mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (32 * mem[mem[(2 * ceil32(return_data.size)) + 490 len 4], Mask(224, 32, arg4) >> 32 + (2 * ceil32(return_data.size)) + 490]) + 32 <= return_data.size
 }
 
 

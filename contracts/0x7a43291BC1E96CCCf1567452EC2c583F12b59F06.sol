@@ -8,6 +8,7 @@ contract main {
 
 #
 #  - transferFrom(address arg1, address arg2, uint256 arg3)
+#  - setCooldownEnabled(bool arg1)
 #  - transfer(address arg1, uint256 arg2)
 #
 const name = 'Floki Bone', 0
@@ -63,14 +64,6 @@ function delBot(address arg1) {
     if owner != msg.sender:
         revert with 0, 'Ownable: caller is not the owner'
     stor6[address(arg1)] = 0
-}
-
-function setCooldownEnabled(bool arg1) {
-    require calldata.size - 4 >= 32
-    require arg1 == arg1
-    if owner != msg.sender:
-        revert with 0, 'Ownable: caller is not the owner'
-    Mask(72, 0, stor15.field_184) = Mask(72, 0, arg1)
 }
 
 function manualsend() {

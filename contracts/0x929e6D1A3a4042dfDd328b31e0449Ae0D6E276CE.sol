@@ -581,7 +581,6 @@ function sub_49deb977(?) {
     require arg2 <= 4294967296
     require arg2 + 36 <= calldata.size
     require arg2.length <= 4294967296 and arg2 + arg2.length + 36 <= calldata.size
-    mem[96] = arg2.length
     mem[128 len arg2.length] = arg2[all]
     mem[arg2.length + 128] = 0
     mem[ceil32(arg2.length) + 160 len floor32(arg2.length)] = call.data[arg2 + 36 len floor32(arg2.length)]
@@ -679,7 +678,6 @@ function sub_49deb977(?) {
                 idx = idx + 32
                 s = s + 1
                 continue 
-            mem[64] = arg2.length + ceil32(arg2.length) + (32 * sub_aa3a6b36[address(arg1)][_39].field_0) + (32 * sub_aa3a6b36[address(arg1)][_39].field_256) + (32 * sub_aa3a6b36[address(arg1)][_39].field_512) + 256
             mem[arg2.length + ceil32(arg2.length) + (32 * sub_aa3a6b36[address(arg1)][_39].field_0) + (32 * sub_aa3a6b36[address(arg1)][_39].field_256) + 224] = sub_aa3a6b36[address(arg1)][_39].field_512
             if sub_aa3a6b36[address(arg1)][_39].field_512:
                 mem[arg2.length + ceil32(arg2.length) + (32 * sub_aa3a6b36[address(arg1)][_39].field_0) + (32 * sub_aa3a6b36[address(arg1)][_39].field_256) + 256] = sub_aa3a6b36[address(arg1)][_39][2].field_0

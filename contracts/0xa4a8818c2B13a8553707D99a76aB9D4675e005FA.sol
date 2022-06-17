@@ -93,7 +93,7 @@ function sub_cc1b2bd0(?) payable {
         if ceil32(return_data.size) + (32 * mem[mem[644 len 4], Mask(224, 32, cd[4]) >> 32 + 644]) + 676 > test266151307() or (32 * mem[mem[644 len 4], Mask(224, 32, cd[4]) >> 32 + 644]) + 32 < 0:
             revert with 'NH{q', 65
         mem[64] = ceil32(return_data.size) + (32 * mem[mem[644 len 4], Mask(224, 32, cd[4]) >> 32 + 644]) + 676
-        mem[ceil32(return_data.size) + 644] = _768
+        mem[ceil32(return_data.size) + 644] = mem[mem[644 len 4], Mask(224, 32, cd[4]) >> 32 + 644]
         require _760 + (32 * _768) + 32 <= return_data.size
         idx = 0
         s = _760 + 676

@@ -9,6 +9,7 @@ contract main {
 #
 #  - withdraw(uint256 arg1, uint256 arg2)
 #  - deposit(uint256 arg1, uint256 arg2, address arg3)
+#  - setDevAddress(address arg1)
 #
 const sub_577e5db2(?) = 6000
 
@@ -139,15 +140,6 @@ function setFeeAddress(address arg1) payable {
     feeAddress = arg1
 }
 
-function setDevAddress(address arg1) payable {
-    require calldata.size - 4 >= 32
-    if devAddress != msg.sender:
-        revert with 0, 'setDevAddress: FORBIDDEN'
-    if not arg1:
-        revert with 0, 'setDevAddress: ZERO'
-    devAddress = arg1
-}
-
 function canHarvest() payable {
     if block.number >= startBlock:
         if startBlock > block.number:
@@ -237,7 +229,6 @@ function emergencyWithdraw(uint256 arg1) payable {
     if not ext_code.size(poolInfo[arg1].field_0):
         revert with 0, 'Address: call to non-contract'
     mem[260 len 64] = unknown_0xa9059cbb(?????), msg.sender, userInfo[arg1][msg.sender].field_32
-    mem[324 len 0] = 0
     call poolInfo[arg1].field_0 with:
        funct uint32(msg.sender)
          gas gas_remaining wei
